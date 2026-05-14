@@ -1,1 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mira — Case Study | Rima Alaya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0b10;
+    --bg-elevated: #13131a;
+    --fg: #f5f5f7;
+    --fg-soft: #d4d4dc;
+    --muted: #8a8a96;
+    --accent: #ffb86c;
+    --accent-soft: rgba(255, 184, 108, 0.15);
+    --pink: #ff79c6;
+    --border: #23232d;
+    --gradient: linear-gradient(135deg, #ffb86c 0%, #ff79c6 100%);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Inter', -apple-system, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
 
+  /* Subtle gradient orbs in background */
+  body::before {
+    content: '';
+    position: fixed;
+    top: -300px;
+    right: -300px;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(255, 184, 108, 0.08) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    bottom: -300px;
+    left: -300px;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(255, 121, 198, 0.06) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; max-width: 920px; margin: 0 auto; padding: 80px 32px 120px; }
+
+  /* Top label */
+  .top-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: var(--accent-soft);
+    border: 1px solid rgba(255, 184, 108, 0.3);
+    border-radius: 100px;
+    color: var(--accent);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin-bottom: 32px;
+  }
+  .top-label::before { content: '◆'; }
+
+  /* Hero */
+  h1.hero {
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    margin-bottom: 32px;
+  }
+  h1.hero .accent {
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+  }
+  .lead {
+    font-size: 1.4rem;
+    line-height: 1.5;
+    color: var(--fg-soft);
+    max-width: 700px;
+    margin-bottom: 56px;
+  }
+  .lead em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    color: var(--accent);
+    font-size: 1.5rem;
+  }
+
+  /* Meta strip */
+  .meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 24px;
+    padding: 28px 32px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    margin-bottom: 72px;
+  }
+  .meta-item .label {
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 6px;
+  }
+  .meta-item .value {
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+
+  /* Stat grid */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    margin: 48px 0 64px;
+  }
+  .stat {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    padding: 28px 24px;
+    border-radius: 16px;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .stat:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 184, 108, 0.4);
+  }
+  .stat-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 3rem;
+    font-weight: 400;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+  .stat-label { font-size: 0.85rem; color: var(--muted); }
+
+  /* Section eyebrows */
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.7rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    margin-bottom: 16px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(255, 184, 108, 0.3);
+  }
+
+  /* Headings */
+  h2 {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    margin: 80px 0 24px;
+    max-width: 700px;
+  }
+  h2 em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 400;
+  }
+  h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 40px 0 12px;
+    letter-spacing: -0.01em;
+  }
+
+  /* Paragraphs */
+  p {
+    color: var(--fg-soft);
+    margin-bottom: 18px;
+    max-width: 720px;
+  }
+
+  /* Quote / pull */
+  .pull {
+    margin: 40px 0;
+    padding: 28px 32px;
+    background: linear-gradient(135deg, rgba(255, 184, 108, 0.06), rgba(255, 121, 198, 0.04));
+    border-left: 3px solid var(--accent);
+    border-radius: 12px;
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.35rem;
+    line-height: 1.45;
+    color: var(--fg);
+    font-style: italic;
+  }
+  .pull::before { content: '"'; color: var(--accent); margin-right: 4px; }
+  .pull::after { content: '"'; color: var(--accent); margin-left: 4px; }
+
+  /* Lists */
+  ul.bullet { list-style: none; padding: 0; margin: 20px 0; }
+  ul.bullet li {
+    padding-left: 32px;
+    position: relative;
+    margin-bottom: 14px;
+    color: var(--fg-soft);
+  }
+  ul.bullet li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 12px;
+    width: 18px;
+    height: 1px;
+    background: var(--gradient);
+  }
+
+  /* Numbered steps */
+  ol.steps { list-style: none; counter-reset: step; padding: 0; margin: 40px 0; }
+  ol.steps li {
+    counter-increment: step;
+    padding: 24px 0 24px 72px;
+    position: relative;
+    border-bottom: 1px solid var(--border);
+  }
+  ol.steps li:last-child { border-bottom: none; }
+  ol.steps li::before {
+    content: counter(step, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 22px;
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.8rem;
+    color: var(--accent);
+    font-weight: 400;
+    font-style: italic;
+  }
+  ol.steps li strong {
+    display: block;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--fg);
+    margin-bottom: 4px;
+  }
+  ol.steps li p { margin: 0; }
+
+  /* Tech grid */
+  .tech {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin: 32px 0;
+  }
+  .tech-item {
+    padding: 16px 20px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    transition: border-color 0.2s;
+  }
+  .tech-item:hover { border-color: rgba(255, 184, 108, 0.3); }
+  .tech-item .role {
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+  }
+  .tech-item .name { font-weight: 600; color: var(--fg); }
+
+  /* Story callout (the bug story) */
+  .story {
+    margin: 40px 0;
+    padding: 32px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .story::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: var(--gradient);
+  }
+  .story .story-label {
+    font-size: 0.7rem;
+    color: var(--pink);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .story h3 { margin-top: 0; }
+
+  .note {
+    background: var(--accent-soft);
+    border: 1px solid rgba(255, 184, 108, 0.2);
+    padding: 14px 20px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: var(--fg-soft);
+    margin: 24px 0;
+  }
+  .note strong { color: var(--accent); }
+
+  /* Footer */
+  footer {
+    margin-top: 96px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  footer strong { color: var(--fg); }
+  footer .signature {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  footer .signature::before {
+    content: '';
+    width: 32px; height: 1px;
+    background: var(--gradient);
+  }
+
+  @media (max-width: 640px) {
+    .wrap { padding: 56px 20px 80px; }
+    .lead { font-size: 1.1rem; }
+    .stat { padding: 20px; }
+    .pull { padding: 20px 24px; font-size: 1.15rem; }
+    .story { padding: 24px; }
+    ol.steps li { padding-left: 56px; }
+    ol.steps li::before { font-size: 1.4rem; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top-label">Case Study · AI Engineering</div>
+  <h1 class="hero">Mira<span class="accent">.</span></h1>
+  <p class="lead">An autonomous agent that <em>polishes 10,000+ product photos</em> at a fraction of the manual cost — feeding clean, on-brand visuals to a separate AI agent that writes the social media posts.</p>
+
+  <div class="meta">
+    <div class="meta-item">
+      <div class="label">Client</div>
+      <div class="value">Home improvement brand · NDA</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Role</div>
+      <div class="value">Solo AI Engineer</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Timeline</div>
+      <div class="value">2 weeks · April 2026</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Status</div>
+      <div class="value">Live in production</div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">10,807</div>
+      <div class="stat-label">images enhanced</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">27</div>
+      <div class="stat-label">categories preserved</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">½</div>
+      <div class="stat-label">the cost of real-time AI</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">0</div>
+      <div class="stat-label">touch after deployment</div>
+    </div>
+  </div>
+
+  <span class="eyebrow">The Problem</span>
+  <h2>10,000 photos, one social media agent, and <em>not enough hours in the week</em></h2>
+
+  <p>A home improvement brand already had a content automation agent in production — call her <strong>Candy</strong>. Candy writes their social media posts: catchy captions, the right hashtags, scheduled across platforms.</p>
+
+  <p>But Candy needed images. Polished, on-brand, publication-ready images. The brand had a Google Drive library bursting with 10,000+ raw product photos — sunrooms, pergolas, railings, installations — each one usable but not <em>publishable</em>. A car in the driveway here. An overcast sky there. A ceiling fan in a sunroom that needed to look airy.</p>
+
+  <div class="pull">The bottleneck wasn't taste. It was 10,000 photos in folders, each one needing the same five fixes, with no team big enough to do it by hand.</div>
+
+  <h3>What was slowing them down</h3>
+  <ul class="bullet">
+    <li>Every photo varied — sky, lighting, clutter, weather, season</li>
+    <li>Interior shots needed staging. Exterior shots needed environment cleanup. Different rules entirely.</li>
+    <li>The library kept growing — dealers and contractors uploaded new photos every week</li>
+    <li>Manual retouching wasn't financially possible. Outsourcing meant inconsistent style.</li>
+  </ul>
+
+  <h3>What they needed</h3>
+  <ul class="bullet">
+    <li>One tool that handles the entire backlog — and every future upload</li>
+    <li>Scene-aware enhancement that knows interior from exterior</li>
+    <li>Folder structure preserved exactly — Candy expects the AI library to mirror the source</li>
+    <li>Resumable, crash-safe, never re-process the same image twice</li>
+    <li>Zero-touch operation after deployment</li>
+  </ul>
+
+  <span class="eyebrow">The Solution</span>
+  <h2>Mira — the agent that <em>makes Candy's job possible</em></h2>
+
+  <div class="note"><strong>NDA notice:</strong> client name anonymized. Architecture, code, and pipeline are original work.</div>
+
+  <p>Mira is a Python pipeline that walks a Google Drive source library, decides what each image needs, calls Vertex AI to actually do the work, and mirrors the result into a destination library — preserving every folder, every name, every hierarchy. Once the backlog cleared, a Cloud Run Job took over for weekly automated runs.</p>
+
+  <p>The team uploads new product photos. Mira polishes them by Monday morning. Candy posts them by Tuesday afternoon. Nobody touches a thing in between.</p>
+
+  <ol class="steps">
+    <li>
+      <strong>Walk the source library</strong>
+      <p>Recursive traversal of the Drive tree. Build the work queue. Skip excluded folders (drop zones, drafts). Only process real image formats.</p>
+    </li>
+    <li>
+      <strong>Classify the scene</strong>
+      <p>Gemini 2.5 Flash decides interior or exterior in ~3 seconds per image. The cheap model is enough — composition is all we need at this stage.</p>
+    </li>
+    <li>
+      <strong>Assemble the right prompt</strong>
+      <p>Interior prompts stage furniture and clear ceilings. Exterior prompts preserve composition and clean the environment. Both refuse to block doors or add ceiling fans. Non-negotiable brand rules.</p>
+    </li>
+    <li>
+      <strong>Queue for batch processing</strong>
+      <p>Each image + prompt is packaged into a Vertex AI batch job — exactly half the cost of real-time for the same model. The image is recorded in the manifest as "queued" the moment it enters the queue.</p>
+    </li>
+    <li>
+      <strong>Submit & poll</strong>
+      <p>Vertex handles the heavy lifting server-side. The script polls every 60 seconds. Large libraries get chunked into ~1,000-image batches to stay under Vertex's 24-hour-per-batch hard ceiling.</p>
+    </li>
+    <li>
+      <strong>Mirror to destination, update manifest</strong>
+      <p>Each enhanced image lands in the destination subfolder that mirrors its source path. The manifest entry flips from "queued" to a real output file ID. Done. Future runs skip it automatically.</p>
+    </li>
+  </ol>
+
+  <span class="eyebrow">Engineering</span>
+  <h2>What I actually built</h2>
+
+  <p>The system is a modular Python pipeline — nine source files, each with a single, boring responsibility. The orchestrator doesn't know what Drive's API looks like. The classifier doesn't know what a batch is. Each layer is independently testable, swappable, and (most importantly) debuggable at 3am when something breaks.</p>
+
+  <h3>The classifier — two stages, one cheap one optional</h3>
+  <p>Stage one: scene classification via Flash. Cheap, fast, accurate enough. Stage two (optional): a quality gate via Pro asking "does this image actually need enhancement?" Active during testing, disabled for the bulk run after the math showed the gate cost more than the savings.</p>
+
+  <h3>The state tracker — manifest in Drive, not in a database</h3>
+  <p>Every destination subfolder carries a <code>_candy_manifest.json</code> with every image processed: source ID, MD5, timestamp, model used, output ID. State lives next to the data. No external database to maintain, no sync issues, no infra to provision. A crash mid-run is fully recoverable — the next invocation reads the manifest and skips what's done.</p>
+
+  <h3>The batch editor — abstracting Vertex's rough edges</h3>
+  <p>Vertex batch prediction has quirks. A hard 24-hour deadline per batch. A strict JSONL schema where the <code>labels</code> field must be a flat string, not a dict (don't ask me how I learned that). All-or-nothing result release. The batch editor handles all of it — the orchestrator just queues items, waits, gets results back.</p>
+
+  <div class="story">
+    <div class="story-label">War Story</div>
+    <h3>When 10,422 images timed out at hour 23:59</h3>
+    <p>The first batch ran the full 24 hours and completed only 1,345 of 10,422 images before Vertex's deadline killed the job. 9,077 incomplete. No money lost (Vertex only charges for successful predictions), but a lot of preprocessing work hung in the balance.</p>
+    <p>Recovery: a harvest script pulled the 1,345 successes from GCS into Drive. A chunked recovery script picked up the remaining 9,077 from the manifest, split them into 10 batches of ~1,000 each, and ran them sequentially. Each chunk finished comfortably under 24 hours. Total recovery: ~7 days of unattended runs. Zero re-preprocessing. Zero re-billing.</p>
+  </div>
+
+  <div class="tech">
+    <div class="tech-item"><div class="role">Classifier</div><div class="name">Gemini 2.5 Flash · Vertex AI</div></div>
+    <div class="tech-item"><div class="role">Image Editor</div><div class="name">Gemini 3 Pro Image Preview</div></div>
+    <div class="tech-item"><div class="role">Orchestration</div><div class="name">Python 3.12</div></div>
+    <div class="tech-item"><div class="role">Storage</div><div class="name">Google Drive + Cloud Storage</div></div>
+    <div class="tech-item"><div class="role">Batch Engine</div><div class="name">Vertex AI Batch Prediction</div></div>
+    <div class="tech-item"><div class="role">Deployment</div><div class="name">Cloud Run Jobs + Scheduler</div></div>
+    <div class="tech-item"><div class="role">Container</div><div class="name">Docker · Artifact Registry</div></div>
+    <div class="tech-item"><div class="role">Reliability</div><div class="name">tenacity · exponential backoff</div></div>
+  </div>
+
+  <span class="eyebrow">Results</span>
+  <h2>10,807 images shipped — and Candy <em>has never been busier</em></h2>
+
+  <p>The full library was enhanced in one continuous campaign. Once results were approved, the Cloud Run Job went live for weekly automated runs. New photos from dealers and contractors now flow through Mira every Monday morning. By Tuesday, Candy has fresh visuals queued for her posts.</p>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">10,807</div>
+      <div class="stat-label">images processed</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">27</div>
+      <div class="stat-label">product categories</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">~$700</div>
+      <div class="stat-label">total Vertex spend</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">1×/wk</div>
+      <div class="stat-label">automated run, hands-off</div>
+    </div>
+  </div>
+
+  <h3>What was delivered</h3>
+  <ul class="bullet">
+    <li>Full 10,807-image library enhanced and mirrored to the AI library</li>
+    <li>Folder structure preserved exactly across 27 product categories</li>
+    <li>Crash-safe manifest tracking — re-runs skip everything already done</li>
+    <li>Batch-mode pipeline cutting Vertex AI cost in half vs real-time</li>
+    <li>Chunked recovery system handling Vertex's 24-hour batch ceiling gracefully</li>
+    <li>Cloud Run deployment with weekly Scheduler trigger — zero-touch operation</li>
+    <li>Two scene-specific prompt templates encoding non-negotiable brand rules</li>
+  </ul>
+
+  <span class="eyebrow">Reflection</span>
+  <h2>Four things this <em>didn't teach me, it slapped me with</em></h2>
+
+  <h3>State belongs next to the data</h3>
+  <p>The single best decision was putting the manifest inside each destination subfolder, not in a database. Drive was already the source of truth for files. Adding a separate database for "which files are done" would have been one more thing to keep in sync. With the manifest in Drive, state is trivially backed up, trivially inspectable, and trivially survives any infra change.</p>
+
+  <h3>Record state on intent, not on completion</h3>
+  <p>An early version recorded an image as "done" only after the batch finished. When a batch timed out mid-run, thousands of preprocessing calls were lost — the next run would redo them. The fix was tiny: record images as "queued" the moment they entered the batch, with a status flag. A crash mid-batch now loses zero preprocessing work.</p>
+
+  <h3>Cloud quotas are the real design constraints, not the model</h3>
+  <p>The model can do almost anything. The platform can't. Vertex's 24-hour batch deadline, Drive's API rate limits, Gemini Pro's per-minute quotas — these were the actual design constraints. Building around them mattered more than tuning the prompt.</p>
+
+  <h3>Cheap pre-filters can cost more than they save</h3>
+  <p>The quality gate — a Pro model call asking "does this need enhancement?" — looked smart on paper. In testing, only 5% of images were marked publication-ready. The math: the gate cost more per image than the savings from skipping 5%. Removed for the bulk run. Re-enabled for the weekly trickle where the dynamics shift.</p>
+
+  <footer>
+    <div class="signature">
+      <span><strong>Rima Alaya</strong> — AI Engineer</span>
+    </div>
+    April 2026 · Client anonymized under NDA
+  </footer>
+
+</div>
+</body>
+</html>
